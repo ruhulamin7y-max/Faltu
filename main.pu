@@ -1,0 +1,23 @@
+import os
+import logging
+import asyncio
+from telegram import Update
+from telegram.constants import PollType
+from telegram.ext import Application, MessageHandler, filters, ContextTypes
+
+# These will be set inside Render later for security
+TOKEN = os.getenv("BOT_TOKEN")
+CHANNEL_ID = os.getenv("CHANNEL_ID")
+
+logging.basicConfig(level=logging.INFO)
+
+# ... (Keep your existing convert_bulk_mcq function here) ...
+
+def main():
+    app = Application.builder().token(TOKEN).build()
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, convert_bulk_mcq))
+    print("Bot is starting...")
+    app.run_polling()
+
+if __name__ == "__main__":
+    main()
